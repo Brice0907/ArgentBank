@@ -28,9 +28,7 @@ export default function Login() {
 
             if (typeof profil === 'object' && profil !== null) {
                 setError(false)
-                console.log(profil);
-                console.log(profil.id);
-                const content = data.find(data => data.id === profil.id)
+                const content = data.find(data => data.email === profil.email)
                 dispatch({ type: 'LOGIN', payload: { profil, token, content } });
                 navigate('/profil');
             }
