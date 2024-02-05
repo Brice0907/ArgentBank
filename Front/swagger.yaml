@@ -1,0 +1,276 @@
+swagger: '2.0'
+info:
+    title: Bank Argent API documentation 
+    description: Contains all available API endpoints in this codebase
+    version: '1.0.0'
+    termsOfService: 'http://swagger.io/terms/'
+host: localhost:3001
+basePath: /api/v1
+schemes:
+  - http
+paths:
+    /transaction:
+      post:
+        security:
+          - Bearer: []
+        tags:
+         - User Transaction
+        summary: Content
+        description: API for content transaction
+        parameters:
+         - in: header
+           type: string
+           name: Authorization
+           description: Attach Bearer JWT token
+           required: true
+         - in: body
+           name: body
+           description: Content Payload
+           schema:
+            $ref: '#/definitions/Transaction'
+        produces:
+          - application/json
+        responses: 
+          '200':
+            description: Content Successfully
+            schema:
+              $ref: '#/definitions/TransactionResponse'
+          '400':
+            description: Invalid Filds
+          '500':
+            description: Internal Server Error
+    /transaction/{balanceId}/add:
+      post:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Add Content
+        description: API for add content transaction
+        parameters:
+         - in: header
+           type: string
+           name: Authorization
+           description: Attach Bearer JWT token
+           required: true
+         - name: balanceId
+           in: path
+           required: true
+           type: integer
+           format: int64
+           description: ID balance
+         - in: body
+           name: body
+           description: Content Payload
+           schema:
+            $ref: '#/definitions/TransactionAdd'
+        produces:
+          - application.json
+        responses:
+          '201':
+            description: Content Add Successfully
+          '400':
+            description: Invalid Filds
+          '500':
+            description: Internal Server Error
+    /transaction/{balanceId}/edit:
+      put:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Transaction Edit API
+        description: API for updating a transaction
+        parameters:
+          - in: header
+            type: string
+            name: Authorization
+            description: Attach Bearer JWT token
+            required: true
+          - name: balanceId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID balance
+          - in: body
+            name: body
+            description: Update transaction attributes
+            required: true
+            schema:
+              $ref: '#/definitions/TransactionEdit'
+        produces:
+          - application/json
+        responses:
+          '200':
+            description: Category transaction retrieved successfully
+            schema:
+              $ref: '#/definitions/CategoryEditResponse'
+          '400':
+            description: Invalid Fields
+          '500':
+            description: Internal Server Error
+    /transaction/{balanceId}/note:
+      put:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Transaction Note Edit API
+        description: API for updating a note transaction
+        parameters:
+          - in: header
+            type: string
+            name: Authorization
+            description: Attach Bearer JWT token
+            required: true
+          - name: balanceId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID balance
+          - in: body
+            name: body
+            description: Update note transaction attributes
+            required: true
+            schema:
+              $ref: '#/definitions/TransactionNote'
+        produces: 
+          - application/json
+        responses:
+          '200':
+            description: Note transaction retrieved successfully
+            schema:
+              $ref: '#/definitions/TransactionNoteReponse'
+          '400':
+            description: Invalid Fields
+          '500':
+            description: Internal Server Error
+    /transaction/{balanceId}/{id}:
+      delete:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Delete transaction API
+        description: API for delete content transaction
+        parameters:
+          - name: balanceId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID balance
+          - name: id
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID transaction
+        responses:
+          '204':
+            description: Delete successfully
+          '404':
+            description: Not found
+          '500':
+            description: Internal Server Error
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  Transaction:
+    properties:
+      balanceId:
+        type: number
+        description: user transaction id
+  TransactionAdd:
+    properties:
+      balanceId:
+        type: number
+      date:
+        type: string
+      description:
+        type: string
+      mount:
+        type: string
+      balance:
+        type: string
+      transactionType:
+        type: string
+      category:
+        type: string
+      notes:
+       type: string
+  TransactionEdit:
+    type: object
+    properties:
+      balanceId:
+        type: number
+      id:
+        type: number
+      description:
+        type: string
+      type:
+        type: string
+      category:
+        type: string
+  TransactionNote:
+    type: object
+    properties:
+      balanceId:
+        type: number
+      id:
+        type: number
+      note:
+        type: string
+  TransactionResponse:
+    type: object
+    properties:
+        body:
+          type: object
+          properties:
+            id:
+              type: integer
+            date:
+              type: string
+            description:
+              type: string
+            mount:
+              type: string
+            balance:
+              type: string
+            transactionType:
+              type: string
+            category:
+              type: string
+            notes:
+             type: string
+  CategoryEditResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+  TransactionNoteReponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: string
+
+          
