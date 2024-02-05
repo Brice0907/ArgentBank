@@ -1,0 +1,10 @@
+.error-404 {
+    color: red;
+    font-size: 70px;
+    font-weight: bold;
+}
+
+.error-text {
+    color: white;
+    font-size: 18px;
+}
