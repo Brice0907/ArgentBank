@@ -3,7 +3,9 @@ import Footer from "../../components/footer/footer.jsx"
 import Logo from './asset/argentBankLogo.png';
 import './style/error.css'
 
+
 export default function Error() {
+
     return <>
         <header className="main-nav">
             <Link className="main-nav-logo" to="/">

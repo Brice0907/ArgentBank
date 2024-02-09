@@ -21,8 +21,11 @@ export default function Login() {
 
         try {
             const token = await userLogin(username, password)
-            if (token === undefined) {
+            if (token === '400') {
                 setError(true)
+            }
+            if (token === 'REFUSED') {
+                navigate('/error')
             }
             const profil = await userProfile(token)
 
@@ -34,6 +37,7 @@ export default function Login() {
             }
         } catch (error) {
             console.log(error);
+            navigate('/error');
         }
     }
 

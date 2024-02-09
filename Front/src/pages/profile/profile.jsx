@@ -3,9 +3,11 @@ import Account from '../../components/account/account'
 import { useSelector, useDispatch } from 'react-redux'
 import { useState } from 'react';
 import { userPut } from '../../service/modif';
+import { useNavigate } from 'react-router-dom';
 
 export default function Profile() {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const user = useSelector((state) => state.auth.user.profil);
     const token = useSelector((state) => state.auth.user.token);
@@ -17,9 +19,13 @@ export default function Profile() {
 
     async function Put() {
         try {
-            await userPut(username, lastname, token)
-            dispatch({ type: 'PUT', payload: { firstName: username, lastName: lastname } });
-            setOpen(false);
+            const response = await userPut(username, lastname, token)
+            if (response === 'REFUSED') {
+                navigate('/error')
+            } else {
+                dispatch({ type: 'PUT', payload: { firstName: username, lastName: lastname } });
+                setOpen(false);
+            }
         } catch (error) {
             console.log(error);
         }

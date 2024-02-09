@@ -27,5 +27,6 @@ export const userPut = async (username, lastname, JWT) => {
         return userData;
     } catch (error) {
         console.log(error);
+        return 'REFUSED'
     }
 }

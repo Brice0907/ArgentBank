@@ -17,5 +17,6 @@ export const userProfile = async (JWT) => {
         return profilData.body;
     } catch (error) {
         console.log(error);
+        return null;
     }
 }

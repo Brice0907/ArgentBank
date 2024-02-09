@@ -20,10 +20,14 @@ export const userLogin = async (email, password) => {
             },
             body: JSON.stringify(body)
         });
+        if (!response.ok) {
+            return '400'
+        }
         const userData = await response.json();
 
         return userData.body.token;
     } catch (error) {
         console.log(error);
+        return 'REFUSED'
     }
 }
