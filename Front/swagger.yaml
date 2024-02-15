@@ -112,26 +112,26 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /transaction/{transactionId}:
+  /balance/{balanceId}:
       get:
         security:
           - Bearer: []
         tags:
          - User Transaction
-        summary: Content of the month's transaction
-        description: API for current month content transaction
+        summary: Content of the month's balance
+        description: API for current month content balance
         parameters:
          - in: header
            type: string
            name: Authorization
            description: Attach Bearer JWT token
            required: true
-         - name: transactionId
+         - name: balanceId
            in: path
            required: true
            type: integer
            format: int64
-           description: ID transaction
+           description: ID balance
         produces:
           - application/json
         responses: 
@@ -140,101 +140,33 @@ paths:
             schema:
               type: array
               items:
-                $ref: '#/definitions/TransactionResponse'
+                $ref: '#/definitions/BalanceResponse'
           '401':
             description: Invalid Filds
           '404':
             description: Not Found
           '500':
             description: Internal Server Error
-  /transaction/{transactionId}/{id}:
-      get:
-        security:
-          - Bearer: []
-        tags:
-          - User Transaction
-        summary: Additional transaction detail
-        description: API detailing each transaction of the current month
-        parameters:
-         - in: header
-           type: string
-           name: Authorization
-           description: Attach Bearer JWT token
-           required: true
-         - name: transactionId
-           in: path
-           required: true
-           type: integer
-           format: int64
-           description: ID transaction
-         - name: id
-           in: path
-           required: true
-           type: integer
-           format: int64
-           description: ID transaction Detail
-        produces: 
-         - application/json
-        responses:
-          '200':
-            description: Content Successfully
-            schema:
-              type: array
-              items:
-                $ref: '#/definitions/TransactionDetailResponse'
-          '401':
-            description: Invalid Filds
-          '404':
-            description: Not Found
-          '500':
-            description: Internal Server Error
-      delete:
-        security:
-          - Bearer: []
-        tags:
-          - User Transaction
-        summary: Delete transaction
-        description: API for delete content transaction in the list
-        parameters:
-          - name: transactionId
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID transaction
-          - name: id
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID transaction detail
-        responses:
-          '204':
-            description: Delete successfully
-          '404':
-            description: Not found
-          '500':
-            description: Internal Server Error
-  /transaction/{transactionId}/add:
+  /balance/{balanceId}/transaction:
       post:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Add Content Transaction
-        description: API to add a transaction to our transaction list
+        summary: Add Content in Balance
+        description: API to add a transaction in a balance
         parameters:
          - in: header
            type: string
            name: Authorization
            description: Attach Bearer JWT token
            required: true
-         - name: transactionId
+         - name: balanceId
            in: path
            required: true
            type: integer
            format: int64
-           description: ID transaction
+           description: ID balance
          - in: body
            name: body
            description: Content Payload
@@ -249,51 +181,122 @@ paths:
             description: Invalid Filds
           '500':
             description: Internal Server Error
-  /transaction/{transactionId}/edit:
+  /balance/{balanceId}/transaction/{transactionId}:
+      get:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Additional information detail
+        description: API for transaction specific information
+        parameters:
+         - in: header
+           type: string
+           name: Authorization
+           description: Attach Bearer JWT token
+           required: true
+         - name: balanceId
+           in: path
+           required: true
+           type: integer
+           format: int64
+           description: ID balance
+         - name: transactionId
+           in: path
+           required: true
+           type: integer
+           format: int64
+           description: ID information Detail
+        produces: 
+         - application/json
+        responses:
+          '200':
+            description: Content Successfully
+            schema:
+                $ref: '#/definitions/TransactionDetailResponse'
+          '401':
+            description: Invalid Filds
+          '404':
+            description: Not Found
+          '500':
+            description: Internal Server Error
+      delete:
+        security:
+          - Bearer: []
+        tags:
+          - User Transaction
+        summary: Delete transaction
+        description: API for delete transaction in the list
+        parameters:
+          - name: balanceId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID balance
+          - name: transactionId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID information detail
+        responses:
+          '204':
+            description: Delete successfully
+          '404':
+            description: Not found
+          '500':
+            description: Internal Server Error
       put:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Edit Content Transaction
-        description: API for updating a transaction
+        summary: Edit Content Information in balance
+        description: API for updating a information in balance
         parameters:
           - in: header
             type: string
             name: Authorization
             description: Attach Bearer JWT token
             required: true
+          - name: balanceId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID balance
           - name: transactionId
             in: path
             required: true
             type: integer
             format: int64
-            description: ID transaction
+            description: ID information
           - in: body
             name: body
-            description: Update transaction attributes
+            description: Update information attributes
             required: true
             schema:
-              $ref: '#/definitions/TransactionEdit'
+              $ref: '#/definitions/InformationEdit'
         produces:
           - application/json
         responses:
           '200':
-            description: Category transaction retrieved successfully
+            description: Category information retrieved successfully
             schema:
               $ref: '#/definitions/CategoryEditResponse'
           '400':
             description: Invalid Fields
           '500':
             description: Internal Server Error
-  /transaction/{transactionId}/{id}/addNote:
+  /balance/{transactionId}/note:
       post:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Add Note Transaction
-        description: API for add note transaction
+        summary: Add Note in Transaction
+        description: API for add note in transaction
         parameters:
           - in: header
             type: string
@@ -306,12 +309,6 @@ paths:
             type: integer
             format: int64
             description: ID transaction
-          - name: id
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID transaction Detail
           - in: body
             name: body
             description: Add note transaction
@@ -327,14 +324,13 @@ paths:
             description: Invalid Filds
           '500':
             description: Internal Server Error
-  /transaction/{transactionId}/{id}/editNote:
       put:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Edit Note Transaction
-        description: API for updating a note transaction
+        summary: Edit Note in Transaction
+        description: API for updating a note in transaction
         parameters:
           - in: header
             type: string
@@ -347,12 +343,6 @@ paths:
             type: integer
             format: int64
             description: ID transaction
-          - name: id
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID transaction Detail
           - in: body
             name: body
             description: Update note transaction attributes
@@ -370,13 +360,12 @@ paths:
             description: Invalid Fields
           '500':
             description: Internal Server Error
-  /transaction/{transactionId}/{id}/{noteId}:
       delete:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Delete Note
+        summary: Delete Note in Transaction
         description: API for delete note in transaction
         parameters:
           - in: header
@@ -390,18 +379,6 @@ paths:
             type: integer
             format: int64
             description: ID transaction
-          - name: id
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID transaction Detail
-          - name: noteId
-            in: path
-            required: true
-            type: integer
-            format: int64
-            description: ID note in transaction
         responses:
           '204':
             description: Delete successfully
@@ -453,11 +430,9 @@ definitions:
         type: string
       category:
         type: string
-  TransactionEdit:
+  InformationEdit:
     type: object
     properties:
-      id:
-        type: number
       description:
         type: string
       type:
@@ -467,15 +442,11 @@ definitions:
   TansactionAddNote:
     type: object
     properties:
-      id:
-        type: integer
       note:
         type: string
   TransactionNote:
     type: object
     properties:
-      id:
-        type: number
       note:
         type: string
   ApiResponse:
@@ -504,43 +475,47 @@ definitions:
         type: string
       lastName:
         type: string
-  TransactionResponse:
+  BalanceResponse:
     type: object
     properties:
-        body:
-          type: object
-          properties:
-            id:
-              type: integer
-            date:
-              type: string
-            description:
-              type: string
-            mount:
-              type: string
-            balance:
-              type: string
+      body:
+        type: object
+        properties:
+          id:
+            type: integer
+          date:
+            type: string
+          description:
+            type: string
+          mount:
+            type: string
+          balance:
+            type: string
+          transactionType:
+            type: string
+          category:
+            type: string
+          note:
+            type: string
   TransactionDetailResponse:
     type: object
     properties:
-        body:
-          type: object
-          properties:
-            id:
-              type: integer
-            transactionType:
-              type: string
-            category:
-              type: string
-            notes:
-             type: array
-             items:
-              type: object
-              properties:
-                id:
-                  type: integer
-                content:
-                  type: string
+      id:
+        type: number
+      date:
+        type: string
+      description:
+        type: string
+      mount:
+        type: string
+      balance:
+        type: string
+      transactionType:
+        type: string
+      category:
+        type: string
+      note:
+        type: string
   CategoryEditResponse:
     type: object
     properties:
@@ -565,4 +540,4 @@ definitions:
         properties:
           id:
             type: string
-          
+        
