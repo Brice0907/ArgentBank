@@ -63,7 +63,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Retrieve Profile Data
       description: API for fetching a user profile
       parameters:
         - in: header
@@ -87,7 +87,7 @@ paths:
         - Bearer: []
       tags:
         - User Module
-      summary: User Profile API
+      summary: Edit User Profil
       description: API for updating a user profile
       parameters:
         - in: header
@@ -112,14 +112,14 @@ paths:
           description: Invalid Fields
         '500':
           description: Internal Server Error
-  /balance/{balanceId}:
+  /balances/{balanceId}:
       get:
         security:
           - Bearer: []
         tags:
          - User Transaction
         summary: Content of the month's balance
-        description: API for current month content balance
+        description: API for current month content balance retrieved with scale ID
         parameters:
          - in: header
            type: string
@@ -147,13 +147,13 @@ paths:
             description: Not Found
           '500':
             description: Internal Server Error
-  /balance/{balanceId}/transaction:
+  /balances/{balanceId}/transaction:
       post:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Add Content in Balance
+        summary: Add Transaction in Balance
         description: API to add a transaction in a balance
         parameters:
          - in: header
@@ -181,14 +181,14 @@ paths:
             description: Invalid Filds
           '500':
             description: Internal Server Error
-  /balance/{balanceId}/transaction/{transactionId}:
+  /balances/{balanceId}/transactions/{transactionId}:
       get:
         security:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Additional information detail
-        description: API for transaction specific information
+        summary: Additional transaction detail
+        description: API to retrieve specific transaction information
         parameters:
          - in: header
            type: string
@@ -252,8 +252,8 @@ paths:
           - Bearer: []
         tags:
           - User Transaction
-        summary: Edit Content Information in balance
-        description: API for updating a information in balance
+        summary: Edit transaction in balance
+        description: API for updating a transaction in balance
         parameters:
           - in: header
             type: string
@@ -289,7 +289,7 @@ paths:
             description: Invalid Fields
           '500':
             description: Internal Server Error
-  /balance/{transactionId}/note:
+  /balances/{transactionId}/note:
       post:
         security:
           - Bearer: []
@@ -324,6 +324,7 @@ paths:
             description: Invalid Filds
           '500':
             description: Internal Server Error
+  /balances/{transactionId}/notes/{noteId}:
       put:
         security:
           - Bearer: []
@@ -343,6 +344,12 @@ paths:
             type: integer
             format: int64
             description: ID transaction
+          - name: noteId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID note
           - in: body
             name: body
             description: Update note transaction attributes
@@ -379,6 +386,12 @@ paths:
             type: integer
             format: int64
             description: ID transaction
+          - name: noteId
+            in: path
+            required: true
+            type: integer
+            format: int64
+            description: ID note
         responses:
           '204':
             description: Delete successfully
@@ -416,8 +429,6 @@ definitions:
         description: user password
   TransactionAdd:
     properties:
-      id:
-        type: integer
       date:
         type: string
       description:
@@ -442,12 +453,12 @@ definitions:
   TansactionAddNote:
     type: object
     properties:
-      note:
+      content:
         type: string
   TransactionNote:
     type: object
     properties:
-      note:
+      content:
         type: string
   ApiResponse:
     type: object
@@ -495,8 +506,15 @@ definitions:
             type: string
           category:
             type: string
-          note:
-            type: string
+          notes:
+            type: array
+            items:
+              type: object
+              properties:
+                id:
+                  type: integer
+                content:
+                  type: string
   TransactionDetailResponse:
     type: object
     properties:
@@ -514,8 +532,15 @@ definitions:
         type: string
       category:
         type: string
-      note:
-        type: string
+      notes:
+        type: array
+        items:
+          type: object
+          properties:
+            id:
+              type: integer
+            content:
+              type: string
   CategoryEditResponse:
     type: object
     properties:
@@ -540,4 +565,5 @@ definitions:
         properties:
           id:
             type: string
-        
+
+    

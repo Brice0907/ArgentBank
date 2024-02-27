@@ -20,7 +20,7 @@ export default function Error() {
             </div>
         </header>
         <div className="main bg-dark">
-            <p className="error-404">404</p>
+            <p className="error-500">500</p>
             <p className="error-text">Oups ! Une erreur est survenue veuillez cliquer sur le lien ci dessous !</p>
             <Link to='/' className="error-text">Retourner sur la page d&apos;Accueil</Link>
         </div>
