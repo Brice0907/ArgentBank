@@ -1,4 +1,4 @@
-# ArgentBank | Projet 13
+# ArgentBank - Projet 13
 
 Projet fictif de formation | OpenClassrooms
 
@@ -15,7 +15,7 @@ Projet fictif de formation | OpenClassrooms
 
 # Description
 
-Phase 1 : Authentification des utilisateurs :
+Phase 1 Authentification des utilisateurs :
 
 Création d'une application web permettant aux clients de se connecter et de gérer leurs comptes et leur profil
 
@@ -29,7 +29,7 @@ Création d'une application web permettant aux clients de se connecter et de gé
     - L'utilisateur peut modifier le profil et conserver les données dans la base de données
 
 
-Phase 2 : Transactions : 
+Phase 2 Transactions : 
 
 Spécifier les endpoints d’API nécessaires pour une éventuelle deuxième mission 
 
